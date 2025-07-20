@@ -1,0 +1,110 @@
+http:
+  middlewares:
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+    pihole-redirect:
+      redirectRegex:
+        regex: "^http[s]?://([^/]*)[/]?$"
+        replacement: "https://${1}/admin"
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+        #- "10.0.0.0/8"
+        - "192.168.0.0/16"
+        #- "172.16.0.0/12"
+
+    secured:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers
+  
+  serversTransports:
+    insecureTransport:
+      insecureSkipVerify: true
+  
+  #region routers 
+  routers:
+    proxmox:
+      entryPoints:
+        - "https"
+      rule: "Host(`proxmox.local.limesour.my.id`)"
+      # middlewares:
+      #   - default-headers
+      #   - https-redirectscheme
+      tls: {}
+      service: proxmox
+    
+    jellyfin:
+      entryPoints:
+        - "https"
+      rule: "Host(`jellyfin.local.limesour.my.id`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: jellyfin
+    
+    truenas:
+      entryPoints:
+        - "https"
+      rule: "Host(`truenas.local.limesour.my.id`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: truenas
+
+    pihole-backup:
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole-backup.local.limesour.my.id`)"
+      middlewares:
+        - https-redirectscheme
+        - pihole-redirect
+        - default-headers
+      tls: {}
+      service: pihole-backup
+  
+#endregion
+#region services
+  services:
+    proxmox:
+      loadBalancer:
+        serversTransport: insecureTransport
+        servers:
+          - url: "https://192.168.10.10:8006"
+        passHostHeader: true
+    
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.30.254:30013"
+        passHostHeader: true
+    
+    truenas:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.30.254:443"
+        passHostHeader: true
+    
+    pihole-backup:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.253:80"
+        passHostHeader: true
+#endregion
