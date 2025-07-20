@@ -1,0 +1,56 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Administration:
+    - Proxmox:
+        icon: proxmox.svg
+        href: http://192.168.10.10:8006
+        description: Elitedesk 
+    - Truenas:
+        icon: truenas.svg
+        href: https://truenas.local.limesour.my.id
+        description: NAS
+    - PiHole-Main:
+        icon: pi-hole.svg
+        href: https://pihole.local.limesour.my.id
+        description: PiHole Main Ubuntu
+        # widget:
+        #     type: pihole
+        #     url: http://192.168.20.254:500
+        #     version: 6 # required if running v6 or higher, defaults to 5
+        #     key: "{{HOMEPAGE_VAR_PIHOLE_MAIN_API_KEY}}" # optional, in v6 can be your password or app password
+    - PiHole-Backup:
+        icon: pi-hole.svg
+        href: https://pihole-backup.local.limesour.my.id
+        description: Pihole Backup Raspberry Pi Zero
+        # widget:
+        #     type: pihole
+        #     url: http://192.168.20.253
+        #     version: 6 # required if running v6 or higher, defaults to 5
+        #     key: "{{HOMEPAGE_VAR_PIHOLE_BACKUP_API_KEY}}" # optional, in v6 can be your password or app password
+
+- Local:
+    - Portainer:
+        icon: portainer.svg
+        href: https://portainer.local.limesour.my.id
+    - Traefik:
+        icon: traefik.svg
+        href: https://traefik.local.limesour.my.id
+
+- DMZ:
+    - Portainer:
+        icon: portainer.svg
+        href: https://portainer-dmz.limesour.my.id
+    - Traefik:
+        icon: traefik.svg
+        href: https://traefik-dmz.limesour.my.id
+    - Grafana:
+        icon: grafana.svg 
+        href: https://grafana-dmz.limesour.my.id
+
+- Media:
+    - Jellyfin:
+        icon: jellyfin.svg
+        href: https://jellyfin.local.limesour.my.id
+ 
