@@ -19,4 +19,4 @@ Requirements:
 - Domain name (dns host)
 
 Record ID can be obtain using this line in mikrotik terminal: \
-/tool/fetch url="https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/dns_records" http-header-field="Authorization: Bearer <READ_API_TOKEN>" http-method=get output=user
+```/tool/fetch url="https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/dns_records" http-header-field="Authorization: Bearer <READ_API_TOKEN>" http-method=get output=user```
